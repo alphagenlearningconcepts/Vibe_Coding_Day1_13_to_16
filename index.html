@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Coding: Build Real Apps with AI!</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Font: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#5E48C4',
+              purpleDark: '#4A3AAD',
+              purpleMid: '#7B6ED4',
+              purplePale: '#EAE7FE',
+              purpleGhost: '#F5F4FF',
+              yellow: '#FFD071',
+              yellowDark: '#E6B84A',
+              yellowPale: '#FFF3CC',
+              black: '#1A1A1A',
+              greyDark: '#404048',
+              greyMid: '#888896',
+              greyLight: '#F2F2F4',
+              cyan: '#59E4FB',
+              cyanDark: '#055F6E',
+              cyanPale: '#E0FAFE',
+              coral: '#ED5661',
+              coralDark: '#993040',
+              coralPale: '#FFF0F1'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #F5F4FF;
+      color: #1A1A1A;
+      user-select: none;
+    }
+
+    .slide {
+      display: none;
+      opacity: 0;
+      transform: translateY(16px) scale(0.98);
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #F2F2F4;
+      border-radius: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #7B6ED4;
+      border-radius: 8px;
+    }
+
+    @keyframes subtle-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-bounce-subtle {
+      animation: subtle-bounce 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between overflow-hidden bg-brand-purpleGhost text-brand-black">
+
+  <!-- HEADER -->
+  <header class="bg-brand-purple text-white px-6 py-3.5 shadow-md flex justify-between items-center z-20">
+    <div class="flex items-center space-x-3">
+      <div class="bg-brand-yellow text-brand-black font-extrabold rounded-full px-3 py-1 text-xs md:text-sm tracking-wide shadow-sm">
+        ALPHAGEN
+      </div>
+      <h1 class="text-lg md:text-xl font-bold tracking-tight text-white hidden sm:block">
+        Vibe Coding: Build Real Apps with AI!
+      </h1>
+    </div>
+
+    <!-- Slide Jump Menu & Counter -->
+    <div class="flex items-center space-x-3">
+      <label for="slideSelect" class="text-xs md:text-sm font-semibold hidden md:inline text-brand-purplePale">Jump to:</label>
+      <select id="slideSelect" onchange="goToSlide(parseInt(this.value))" class="bg-white text-brand-purple font-bold text-sm md:text-base px-3 py-1 rounded-xl border-2 border-brand-yellow focus:outline-none shadow-sm cursor-pointer">
+        <option value="1">1. Welcome</option>
+        <option value="2">2. What is Coding?</option>
+        <option value="3">3. Coding Experience</option>
+        <option value="4">4. Games & Apps</option>
+        <option value="5">5. What is AI?</option>
+        <option value="6">6. 5-Day Camp Journey</option>
+        <option value="7">7. What is Vibe Coding?</option>
+        <option value="8">8. Prompting & AI Tools</option>
+        <option value="9">9. Tools We Use</option>
+        <option value="10">10. Explore Prompting</option>
+        <option value="11">11. Start Prompting!</option>
+        <option value="12">12. Wrap-up & Quiz</option>
+      </select>
+      <span id="slideCounter" class="text-xs md:text-sm font-bold bg-brand-purpleDark px-3 py-1.5 rounded-xl text-brand-yellow border border-brand-purpleMid">
+        1 / 12
+      </span>
+    </div>
+  </header>
+
+  <!-- MAIN SLIDE CONTAINER -->
+  <main class="flex-1 relative flex items-center justify-center p-4 md:p-6 overflow-hidden">
+
+    <!-- SLIDE 1: Welcome -->
+    <section class="slide active flex-col items-center justify-center text-center max-w-4xl w-full bg-white rounded-3xl p-8 md:p-14 shadow-xl border-4 border-brand-purplePale relative">
+      <div class="inline-block bg-brand-purplePale text-brand-purple font-extrabold text-xs md:text-sm tracking-widest uppercase px-5 py-2 rounded-full mb-8">
+        ALPHAGEN LEARNING
+      </div>
+      <h1 class="text-4xl md:text-6xl font-extrabold text-brand-black mb-10 leading-tight">
+        Vibe Coding: <br><span class="text-brand-purple">Build Real Apps with AI!</span>
+      </h1>
+      <button onclick="nextSlide()" class="bg-brand-yellow hover:bg-brand-yellowDark text-brand-black text-xl md:text-2xl font-bold py-4 px-10 rounded-2xl shadow-lg transform hover:scale-105 transition-all flex items-center gap-3">
+        <span>Start Exploring</span> ➔
+      </button>
+    </section>
+
+    <!-- SLIDE 2: What is Coding? -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale overflow-y-auto max-h-full">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-purplePale text-brand-purple font-extrabold text-xs tracking-widest uppercase px-4 py-1.5 rounded-full mb-2">
+          WARM-UP QUESTION
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          What is Coding?
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium mt-1">
+          Type your definition below and click submit to explore.
+        </p>
+      </div>
+
+      <div class="w-full max-w-2xl flex flex-col gap-3 mb-4">
+        <textarea id="codingDefinitionInput" rows="2" placeholder="Write your thoughts here..." class="p-3 rounded-2xl border-2 border-brand-purpleMid font-medium text-xs md:text-sm focus:outline-none focus:border-brand-purple bg-brand-purpleGhost text-brand-black shadow-inner resize-none"></textarea>
+        <button onclick="submitCodingDefinition()" class="bg-brand-purple hover:bg-brand-purpleDark text-white font-bold py-2.5 px-6 rounded-xl shadow-md transition self-center text-xs md:text-sm">
+          Submit Answer
+        </button>
+      </div>
+
+      <!-- Technical Explanation Card -->
+      <div id="codingExplanationCard" class="hidden w-full max-w-3xl bg-brand-purpleGhost border-2 border-brand-purpleMid p-5 rounded-2xl text-left transition-all space-y-4">
+        <div>
+          <h3 class="text-sm md:text-base font-extrabold text-brand-purple mb-1">Let's understand: </h3>
+          <p class="text-xs md:text-sm text-brand-greyDark font-medium leading-relaxed">
+            Humans communicate using languages like English, Spanish, and Arabic to share ideas with each other.<br/>
+
+Computers cannot understand human speech or text directly. Instead, they run on special instructions written in programming languages like Python, Java, and C++.<br/>
+
+Coding is the act of writing these precise instructions in a programming language so a computer can execute a task, perform calculations, or run software.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-xs md:text-sm font-extrabold text-brand-purple mb-2">Beyond Games & Web Apps — Where Coding Powers the World:</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-[11px] font-medium">
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">🤖 AI & Neural Networks</strong>
+             computer vision, & machine learning algorithms.
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">🏎️ Autonomous Systems</strong>
+              Self-driving vehicle , drone navigation, & robotics.
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">🔒 Cybersecurity & Hacking</strong>
+             Ccryptography, & network defense.
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">📈 Algorithmic Finance</strong>
+              Stock Trading Bots
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">🎬 CGI & Graphics Engines</strong>
+              Real-time motion tracing, physics engines, & 3D VFX rendering.
+            </div>
+            <div class="bg-white p-2.5 rounded-xl border border-brand-purplePale">
+              <strong class="text-brand-purple block">🚀 Space Flight Software</strong>
+              Rocket guidance, satellite communication, & orbital physics.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: Have you written code before? -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-6">
+        <div class="inline-block bg-brand-purplePale text-brand-purple font-extrabold text-xs tracking-widest uppercase px-4 py-1.5 rounded-full mb-2">
+          YOUR BACKGROUND
+        </div>
+        <h2 class="text-2xl md:text-4xl font-extrabold text-brand-purple">
+          Have you written code before?
+        </h2>
+        <p class="text-sm md:text-base text-brand-greyDark font-medium mt-1">
+          Select an option below to let us know where you're starting from.
+        </p>
+      </div>
+
+      <div class="flex gap-6 mb-6">
+        <button onclick="handleCodeBefore('no')" class="bg-brand-purpleGhost hover:bg-brand-purplePale border-3 border-brand-purpleMid px-8 py-5 rounded-2xl font-extrabold text-lg text-brand-purple shadow-md transition transform hover:scale-105">
+          No, I'm brand new
+        </button>
+        <button onclick="handleCodeBefore('yes')" class="bg-brand-yellowPale hover:bg-brand-yellow border-3 border-brand-yellowDark px-8 py-5 rounded-2xl font-extrabold text-lg text-brand-black shadow-md transition transform hover:scale-105">
+          Yes, I have
+        </button>
+      </div>
+
+      <!-- Conditional Box for NO -->
+      <div id="codeBeforeNoBox" class="hidden w-full max-w-2xl bg-brand-purpleGhost border-2 border-brand-purple p-5 rounded-2xl text-center">
+        <h3 class="text-lg font-bold text-brand-purple mb-1">There's nothing to worry about!</h3>
+        <p class="text-sm md:text-base text-brand-greyDark font-medium">
+          We will be learning step-by-step today. Vibe Coding is engineered so you can construct real apps quickly regardless of prior experience.
+        </p>
+      </div>
+
+      <!-- Conditional Box for YES -->
+      <div id="codeBeforeYesBox" class="hidden w-full max-w-2xl bg-brand-yellowPale border-2 border-brand-yellowDark p-5 rounded-2xl text-center">
+        <h3 class="text-lg font-bold text-brand-black mb-2">That's good to know! List down what languages or projects you have done:</h3>
+        <div class="flex gap-2">
+          <input type="text" id="prevCodingInput" placeholder="e.g. Python scripts, HTML/CSS web pages, Scratch..." class="flex-1 p-3 rounded-xl border border-brand-yellowDark text-sm font-medium focus:outline-none bg-white">
+          <button onclick="submitPrevCoding()" class="bg-brand-purple hover:bg-brand-purpleDark text-white px-5 py-3 rounded-xl font-bold text-sm shadow">
+            Submit
+          </button>
+        </div>
+        <div id="prevCodingFeedback" class="hidden mt-3 text-sm font-bold text-brand-purple">
+          That's good to know you know something! Let's start with something completely new today.
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Games & Apps You Play -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-cyanPale text-brand-cyanDark font-extrabold text-xs tracking-widest uppercase px-4 py-1.5 rounded-full mb-1">
+          IDEATION & ANALYSIS
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          What type of games do you play or apps do you browse?
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Select options or list your favorites below:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 w-full mb-4">
+        <button onclick="toggleFavItem(this)" class="p-3 bg-brand-purpleGhost border-2 border-brand-purpleMid rounded-xl font-bold text-xs md:text-sm text-center transition hover:border-brand-purple flex flex-col items-center justify-center">
+          <span>Roblox / Minecraft</span>
+        </button>
+        <button onclick="toggleFavItem(this)" class="p-3 bg-brand-purpleGhost border-2 border-brand-purpleMid rounded-xl font-bold text-xs md:text-sm text-center transition hover:border-brand-purple flex flex-col items-center justify-center">
+          <span>Shooters / Strategy</span>
+        </button>
+        <button onclick="toggleFavItem(this)" class="p-3 bg-brand-purpleGhost border-2 border-brand-purpleMid rounded-xl font-bold text-xs md:text-sm text-center transition hover:border-brand-purple flex flex-col items-center justify-center">
+          <span>Instagram / TikTok</span>
+        </button>
+        <button onclick="toggleFavItem(this)" class="p-3 bg-brand-purpleGhost border-2 border-brand-purpleMid rounded-xl font-bold text-xs md:text-sm text-center transition hover:border-brand-purple flex flex-col items-center justify-center">
+          <span>Spotify / Discord</span>
+        </button>
+      </div>
+
+      <div class="w-full flex gap-2 mb-4">
+        <input type="text" id="customAppInput" placeholder="Add custom game or app platform..." class="flex-1 p-3 rounded-xl border-2 border-brand-purpleMid text-xs md:text-sm font-medium focus:outline-none bg-brand-purpleGhost">
+        <button onclick="addCustomApp()" class="bg-brand-purple hover:bg-brand-purpleDark text-white font-bold px-4 rounded-xl text-xs md:text-sm shadow">
+          Add
+        </button>
+      </div>
+
+      <div id="appInspirationBox" class="w-full bg-brand-yellowPale border-2 border-brand-yellowDark p-3.5 rounded-xl text-center text-xs md:text-sm font-bold text-brand-black">
+        Every platform you use daily started with product thinking, user interface design, and front-end/back-end code architecture!
+      </div>
+    </section>
+
+    <!-- SLIDE 5: What is AI? -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-cyanPale text-brand-cyanDark font-extrabold text-xs tracking-widest uppercase px-4 py-1.5 rounded-full mb-1">
+          AI LITERACY
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Are you aware of what AI is?
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Click the cards below to inspect how AI models function:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-4">
+        <div onclick="revealAiConcept('brain')" class="cursor-pointer bg-brand-purpleGhost hover:bg-brand-purplePale border-2 border-brand-purpleMid p-5 rounded-2xl flex flex-col items-center text-center transition shadow">
+          <h3 class="text-base font-bold text-brand-purple mb-1">Is AI a Conscious Brain?</h3>
+          <p class="text-xs text-brand-greyDark font-medium">Click to see how AI actually processes queries.</p>
+        </div>
+
+        <div onclick="revealAiConcept('pattern')" class="cursor-pointer bg-brand-cyanPale hover:bg-cyan-100 border-2 border-brand-cyanDark p-5 rounded-2xl flex flex-col items-center text-center transition shadow">
+          <h3 class="text-base font-bold text-brand-cyanDark mb-1">Is AI a Pattern Recognizer?</h3>
+          <p class="text-xs text-brand-greyDark font-medium">Click to learn why AI is trained for code generation.</p>
+        </div>
+      </div>
+
+      <div id="aiConceptResult" class="w-full bg-brand-purpleGhost border-2 border-brand-purpleMid p-4 rounded-xl text-center text-xs md:text-sm font-bold text-brand-black">
+        Click a card above to inspect!
+      </div>
+    </section>
+
+    <!-- SLIDE 6: 5-Day Camp Agenda -->
+    <section class="slide flex-col items-center max-w-5xl w-full bg-white rounded-3xl p-5 md:p-7 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-yellow text-brand-black font-extrabold text-xs tracking-widest uppercase px-4 py-1 rounded-full mb-1">
+          OUR ROADMAP
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Agenda of the Camp
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Here is our step-by-step path over 5 days:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 w-full my-auto">
+        <!-- Day 1 -->
+        <div class="bg-brand-yellowPale border-2 border-brand-yellowDark p-3 rounded-2xl text-center shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-brand-yellow text-brand-black font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase block mb-1">Day 1</span>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-black mb-1">Introduction to Vibe Coding</h3>
+            <p class="text-[11px] text-brand-greyDark leading-tight">Get comfortable with vibe coding workflow & prompt engineering.</p>
+          </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl text-center shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-brand-purple text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase block mb-1">Day 2</span>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">Build Static App</h3>
+            <p class="text-[11px] text-brand-greyDark leading-tight">Multi-page app with navigation, brand identity, and asset creation.</p>
+          </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl text-center shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-brand-purple text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase block mb-1">Day 3</span>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">Build Dynamic App</h3>
+            <p class="text-[11px] text-brand-greyDark leading-tight">Connect Firebase database. Write and read live data across devices.</p>
+          </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl text-center shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-brand-purple text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase block mb-1">Day 4</span>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">GitHub & Repositories</h3>
+            <p class="text-[11px] text-brand-greyDark leading-tight">Learn version control, upload code, and publish live on Vercel/Netlify.</p>
+          </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl text-center shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="bg-brand-purple text-white font-extrabold text-[10px] px-2 py-0.5 rounded-full uppercase block mb-1">Day 5</span>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">Portfolio Showcase</h3>
+            <p class="text-[11px] text-brand-greyDark leading-tight">Build personal showcase portfolio and present your favorite app!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: What can we do with Vibe Coding? -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-purplePale text-brand-purple font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          CORE METHODOLOGY
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          What can we do with Vibe Coding?
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Vibe Coding is a modern development workflow used by real product teams.
+        </p>
+      </div>
+
+      <!-- Formula Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 w-full mb-5 text-center font-bold text-xs md:text-sm">
+        <div class="bg-brand-purple text-white p-3 rounded-xl shadow">Coding</div>
+        <div class="bg-brand-purpleMid text-white p-3 rounded-xl shadow">+ Art & Design</div>
+        <div class="bg-brand-yellow text-brand-black p-3 rounded-xl shadow">+ AI Tools</div>
+        <div class="bg-brand-coral text-white p-3 rounded-xl shadow">+ Product Thinking</div>
+        <div class="bg-brand-purpleDark text-brand-yellow p-3 rounded-xl shadow col-span-2 sm:col-span-1">= VIBE CODING</div>
+      </div>
+
+      <!-- Key Pointers -->
+      <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-4 rounded-2xl w-full text-xs md:text-sm text-brand-black space-y-2.5">
+        <div class="flex items-start gap-2">
+          <span class="font-bold text-brand-purple">1.</span>
+          <p><strong>Vibe coding doesn't just mean prompting to the computer:</strong> You need to understand how code works so you can review outputs and debug issues.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-bold text-brand-purple">2.</span>
+          <p><strong>Capability to understand:</strong> You must have the capability to analyze logic, structure data flow, and refine software features.</p>
+        </div>
+        <div class="flex items-start gap-2">
+          <span class="font-bold text-brand-purple">3.</span>
+          <p><strong>End-to-End Execution:</strong> Define problem ➔ Design solution ➔ Write structured prompts ➔ Review code output ➔ Iterate and test.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Prompting & AI as Support Tool -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-4">
+        <div class="inline-block bg-brand-yellow text-brand-black font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          PROMPTING PRINCIPLES
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Have you prompted before?
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Understanding what prompting is and why AI is a support tool, not a dependency:
+        </p>
+      </div>
+
+      <div class="w-full bg-brand-purpleGhost border-2 border-brand-purpleMid p-4 rounded-2xl mb-4 text-xs md:text-sm">
+        <h3 class="font-extrabold text-brand-purple text-sm md:text-base mb-1">What is Prompting?</h3>
+        <p class="text-brand-greyDark font-medium leading-relaxed">
+          Prompting is giving structured, precise instructions to an AI model to guide its generation toward a specific coding, design, or logical output.
+        </p>
+      </div>
+
+      <div class="w-full bg-brand-coralPale border-2 border-brand-coral p-4 rounded-2xl text-xs md:text-sm space-y-2">
+        <h3 class="font-extrabold text-brand-coralDark text-sm md:text-base">Why AI must be held as a SUPPORT, not a DEPENDENCY:</h3>
+        <ul class="space-y-1.5 text-brand-coralDark font-medium">
+          <li>• <strong>Energy & Compute Consumption:</strong> Over-prompting or relying blindly on AI consumes excessive server energy and computation.</li>
+          <li>• <strong>Critical Thinking & Growth:</strong> Total dependency on technology reduces your own problem-solving capabilities.</li>
+          <li>• <strong>Tool Mindset:</strong> We use AI as a powerful assistant while keeping human intelligence in command of architecture and decisions.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Tools We Use in Camp -->
+    <section class="slide flex-col items-center max-w-5xl w-full bg-white rounded-3xl p-5 md:p-7 shadow-xl border-4 border-brand-purplePale overflow-y-auto max-h-full">
+      <div class="text-center mb-3">
+        <div class="inline-block bg-brand-purplePale text-brand-purple font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          DEVELOPER TOOLKIT
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Tools Needed For Our Camp 
+        <p class="text-xs text-brand-greyDark font-medium">
+          Set up your working environment with these essential developer tools:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 w-full mb-2">
+        <!-- VS Code -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl flex flex-col justify-between text-center">
+          <div>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">1. VS Code</h3>
+            <p class="text-[11px] text-brand-greyDark font-medium mb-2">Primary code editor with live preview capabilities.</p>
+          </div>
+          <a href="https://code.visualstudio.com/Download" target="_blank" class="bg-brand-purple text-white py-1.5 rounded-lg font-bold text-[11px] hover:bg-brand-purpleDark transition">Download VS Code</a>
+        </div>
+
+        <!-- AI Assistants -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl flex flex-col justify-between text-center">
+          <div>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">2. AI Assistants</h3>
+            <p class="text-[11px] text-brand-greyDark font-medium mb-2">Gemini or ChatGPT (whichever you prefer) to assist code generation.</p>
+          </div>
+          <div class="flex gap-1.5 text-[10px]">
+            <a href="https://gemini.google.com" target="_blank" class="flex-1 bg-brand-yellow text-brand-black py-1.5 rounded-lg font-bold hover:bg-brand-yellowDark transition">Open Gemini</a>
+            <a href="https://chatgpt.com" target="_blank" class="flex-1 bg-brand-purple text-white py-1.5 rounded-lg font-bold hover:bg-brand-purpleDark transition">Open ChatGPT</a>
+          </div>
+        </div>
+
+        <!-- Firebase -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl flex flex-col justify-between text-center">
+          <div>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">3. Firebase</h3>
+            <p class="text-[11px] text-brand-greyDark font-medium mb-2">Real-time cloud database to store & sync dynamic app data.</p>
+          </div>
+          <a href="https://firebase.google.com" target="_blank" class="bg-brand-purple text-white py-1.5 rounded-lg font-bold text-[11px] hover:bg-brand-purpleDark transition">Open Firebase</a>
+        </div>
+
+        <!-- GitHub -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl flex flex-col justify-between text-center">
+          <div>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">4. GitHub</h3>
+            <p class="text-[11px] text-brand-greyDark font-medium mb-2">Create repositories & manage code versions across days.</p>
+          </div>
+          <a href="https://github.com" target="_blank" class="bg-brand-purple text-white py-1.5 rounded-lg font-bold text-[11px] hover:bg-brand-purpleDark transition">Visit GitHub</a>
+        </div>
+
+        <!-- Vercel & Netlify -->
+        <div class="bg-brand-purpleGhost border-2 border-brand-purpleMid p-3 rounded-2xl flex flex-col justify-between text-center col-span-1 sm:col-span-2 md:col-span-2">
+          <div>
+            <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-1">5. Live Web Deployment</h3>
+            <p class="text-[11px] text-brand-greyDark font-medium mb-2">Publish your web app to a live shareable URL instantly using Vercel or Netlify.</p>
+          </div>
+          <div class="flex gap-2 text-[10px]">
+            <a href="https://vercel.com" target="_blank" class="flex-1 bg-brand-purple text-white py-1.5 rounded-lg font-bold hover:bg-brand-purpleDark transition">Visit Vercel</a>
+            <a href="https://www.netlify.com" target="_blank" class="flex-1 bg-brand-yellow text-brand-black py-1.5 rounded-lg font-bold hover:bg-brand-yellowDark transition">Visit Netlify</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Explore Prompting -->
+    <section class="slide flex-col items-center max-w-5xl w-full bg-white rounded-3xl p-5 md:p-7 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-3">
+        <div class="inline-block bg-brand-cyanPale text-brand-cyanDark font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          PROMPT STRUCTURE
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Let's Explore Prompting 🎯
+        </h2>
+        <p class="text-xs text-brand-greyDark font-medium">
+          Here are the core ingredients required to compose an effective AI prompt:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mb-3 text-left">
+        <!-- Ingredients Box -->
+        <div class="bg-brand-purpleGhost p-4 rounded-2xl border-2 border-brand-purpleMid">
+          <h3 class="font-extrabold text-xs md:text-sm text-brand-purple mb-2">Key Prompt Ingredients:</h3>
+          <ul class="space-y-1.5 text-xs text-brand-black font-medium">
+            <li>✅ <strong>Persona / Role:</strong> e.g. "Act as a Senior Web Developer"</li>
+            <li>✅ <strong>Project Goal & Task:</strong> e.g. "Build a Space Dodge Game"</li>
+            <li>✅ <strong>Tech Stack:</strong> e.g. "Single file HTML5 Canvas + JavaScript"</li>
+            <li>✅ <strong>UI & Design Rules:</strong> e.g. "Dark space theme, score counter, starfield background"</li>
+            <li>✅ <strong>Constraints:</strong> e.g. "Include arrow key controls, restart button, responsive layout"</li>
+          </ul>
+        </div>
+
+        <!-- Example Box -->
+        <div class="bg-gray-900 text-white p-4 rounded-2xl border-2 border-gray-700 font-mono text-[11px] overflow-y-auto">
+          <span class="text-brand-yellow font-bold block mb-1"># Game Prompt Example:</span>
+          <p class="text-green-400 leading-relaxed">
+            "Act as an expert game developer. Create a responsive Space Dodger game in HTML/CSS/JavaScript contained in one HTML file. Include player spaceship moved by Arrow keys, falling asteroids to dodge, score multiplier over time, collision detection, and restart screen."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: Start Prompting! -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale">
+      <div class="text-center mb-3">
+        <div class="inline-block bg-brand-yellow text-brand-black font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          PRACTICE
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Let's Start Prompting! ✍️
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+         Paste the prompt to your notepad after quality check
+        </p>
+      </div>
+
+      <div class="w-full bg-brand-purpleGhost p-4 rounded-2xl border-2 border-brand-purpleMid mb-3">
+        <label for="draftPromptArea" class="block text-xs font-extrabold text-brand-purple uppercase mb-2">Draft Your Prompt Idea:</label>
+        <textarea id="draftPromptArea" rows="3" placeholder="e.g. Act as a developer. Create a Memory Card Match Game using HTML, CSS, and JavaScript in 1 file. Include score tracker, flip animations, and restart button..." class="w-full p-3 rounded-xl border border-brand-purpleMid text-xs md:text-sm font-medium focus:outline-none bg-white text-brand-black resize-none"></textarea>
+        <button onclick="testDraftPrompt()" class="mt-2 bg-brand-purple hover:bg-brand-purpleDark text-white font-bold py-2.5 px-6 rounded-xl text-xs md:text-sm shadow transition">
+          Check Prompt Quality ✨
+        </button>
+      </div>
+
+      <!-- Emboldened Component Callout Output -->
+      <div id="promptQualityFeedback" class="hidden w-full p-3.5 rounded-2xl text-xs md:text-sm text-left bg-white border-2 border-brand-purple"></div>
+    </section>
+
+    <!-- SLIDE 12: Wrap-up & Quiz -->
+    <section class="slide flex-col items-center max-w-4xl w-full bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-brand-purplePale overflow-y-auto max-h-full">
+      <div class="text-center mb-3">
+        <div class="inline-block bg-brand-yellow text-brand-black font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-full mb-1">
+          WRAP-UP
+        </div>
+        <h2 class="text-2xl md:text-3xl font-extrabold text-brand-purple">
+          Wrap-up Knowledge Check 🏆
+        </h2>
+        <p class="text-xs md:text-sm text-brand-greyDark font-medium">
+          Verify core tools and concepts before concluding Day 1:
+        </p>
+      </div>
+
+      <!-- Quiz 1: Multi Tool Selection -->
+      <div class="w-full bg-brand-purpleGhost p-3.5 rounded-2xl border-2 border-brand-purpleMid mb-3 text-left">
+        <p class="font-bold text-xs md:text-sm text-brand-black mb-2">1. Pick the correct tools used in our Vibe Coding workflow:</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">VS Code</button>
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">GitHub</button>
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">Gemini / ChatGPT</button>
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">Firebase</button>
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">Vercel / Netlify</button>
+          <button onclick="toggleToolQuiz(this, false)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">MS Paint</button>
+          <button onclick="toggleToolQuiz(this, true)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">Notepad</button>
+          <button onclick="toggleToolQuiz(this, false)" class="tool-btn bg-white border border-brand-greyMid p-2 rounded-xl text-xs font-bold transition hover:border-brand-purple">Calculator App</button>
+        </div>
+      </div>
+
+      <!-- Quiz 2: First Game Tool -->
+      <div class="w-full bg-brand-purpleGhost p-3.5 rounded-2xl border-2 border-brand-purpleMid mb-3 text-left">
+        <p class="font-bold text-xs md:text-sm text-brand-black mb-2">2. Which tech stack and tool combination do we use to vibe code our first game?</p>
+        <div class="flex gap-2">
+          <button onclick="quizGameTool(true, this)" class="q2-btn flex-1 bg-white border border-brand-greyMid p-2.5 rounded-xl text-xs font-bold transition hover:border-brand-purple">HTML5 / JavaScript + AI Assistant in VS Code</button>
+          <button onclick="quizGameTool(false, this)" class="q2-btn flex-1 bg-white border border-brand-greyMid p-2.5 rounded-xl text-xs font-bold transition hover:border-brand-purple">C++ Console Application without AI</button>
+        </div>
+      </div>
+
+      <!-- Victory Banner -->
+      <div id="victoryBanner" class="hidden w-full bg-brand-yellow p-3.5 rounded-2xl text-center shadow-lg border-2 border-brand-yellowDark animate-bounce-subtle">
+        <h3 class="text-xl md:text-2xl font-extrabold text-brand-black mb-1">
+          🎉 Day 1 Complete!
+        </h3>
+       
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER NAVIGATION -->
+  <footer class="bg-white border-t-2 border-brand-purplePale px-6 py-3.5 flex justify-between items-center z-20 shadow-lg">
+    <button id="prevBtn" onclick="prevSlide()" class="bg-brand-purpleGhost hover:bg-brand-purplePale text-brand-purple font-extrabold px-5 py-2.5 rounded-2xl transition border-2 border-brand-purpleMid disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 text-sm md:text-base">
+      ⬅️ Previous
+    </button>
+
+    <div class="hidden md:flex items-center space-x-2" id="dotContainer"></div>
+
+    <button id="nextBtn" onclick="nextSlide()" class="bg-brand-yellow hover:bg-brand-yellowDark text-brand-black font-extrabold px-5 py-2.5 rounded-2xl transition shadow-md flex items-center gap-2 text-sm md:text-base">
+      Next ➡️
+    </button>
+  </footer>
+
+  <!-- AUDIO SYNTHESIZER & NAVIGATION LOGIC JS -->
+  <script>
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new AudioContext();
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.15) {
+      initAudio();
+      if (!audioCtx) return;
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = type;
+      osc.frequency.value = freq;
+
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function playCorrectSound() {
+      playTone(523.25, 'triangle', 0.1);
+      setTimeout(() => playTone(659.25, 'triangle', 0.15), 100);
+      setTimeout(() => playTone(783.99, 'triangle', 0.2), 200);
+    }
+
+    function playWrongSound() {
+      playTone(220, 'sawtooth', 0.15);
+      setTimeout(() => playTone(180, 'sawtooth', 0.2), 120);
+    }
+
+    // Navigation State
+    let currentSlide = 1;
+    const totalSlides = 12;
+
+    function renderDots() {
+      const container = document.getElementById('dotContainer');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.className = `w-2.5 h-2.5 rounded-full cursor-pointer transition-all ${i === currentSlide ? 'bg-brand-purple w-5' : 'bg-brand-greyMid opacity-50'}`;
+        dot.onclick = () => goToSlide(i);
+        container.appendChild(dot);
+      }
+    }
+
+    function updateSlideDisplay() {
+      document.querySelectorAll('.slide').forEach((slide, idx) => {
+        if (idx + 1 === currentSlide) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      document.getElementById('slideCounter').innerText = `${currentSlide} / ${totalSlides}`;
+      document.getElementById('slideSelect').value = currentSlide;
+
+      document.getElementById('prevBtn').disabled = (currentSlide === 1);
+      if (currentSlide === totalSlides) {
+        document.getElementById('nextBtn').innerText = 'Finish 🏆';
+      } else {
+        document.getElementById('nextBtn').innerText = 'Next ➡️';
+      }
+
+      renderDots();
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updateSlideDisplay();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide === totalSlides) {
+        triggerFinishCelebration();
+      } else if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlideDisplay();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlideDisplay();
+      }
+    }
+
+    // Slide 2 Logic
+    function submitCodingDefinition() {
+      const input = document.getElementById('codingDefinitionInput').value.trim();
+      if (!input) {
+        playWrongSound();
+        alert('Please type a quick definition first!');
+        return;
+      }
+      playCorrectSound();
+      document.getElementById('codingExplanationCard').classList.remove('hidden');
+    }
+
+    // Slide 3 Logic
+    function handleCodeBefore(choice) {
+      playTone(450, 'sine', 0.1);
+      if (choice === 'no') {
+        document.getElementById('codeBeforeNoBox').classList.remove('hidden');
+        document.getElementById('codeBeforeYesBox').classList.add('hidden');
+      } else {
+        document.getElementById('codeBeforeYesBox').classList.remove('hidden');
+        document.getElementById('codeBeforeNoBox').classList.add('hidden');
+      }
+    }
+
+    function submitPrevCoding() {
+      playCorrectSound();
+      document.getElementById('prevCodingFeedback').classList.remove('hidden');
+    }
+
+    // Slide 4 Logic
+    function toggleFavItem(btn) {
+      playTone(450, 'sine', 0.1);
+      btn.classList.toggle('bg-brand-purple');
+      btn.classList.toggle('text-white');
+      btn.classList.toggle('bg-brand-purpleGhost');
+    }
+
+    function addCustomApp() {
+      const inp = document.getElementById('customAppInput');
+      if (inp.value.trim()) {
+        playCorrectSound();
+        const box = document.getElementById('appInspirationBox');
+        box.innerText = `Platform "${inp.value.trim()}" requires front-end interface, back-end code logic, and databases!`;
+        inp.value = '';
+      }
+    }
+
+    // Slide 5 Logic
+    function revealAiConcept(type) {
+      playTone(450, 'sine', 0.1);
+      const res = document.getElementById('aiConceptResult');
+      if (type === 'brain') {
+        res.innerHTML = "<strong>AI isn't a human brain:</strong> It processes massive data inputs to mathematically predict code tokens!";
+      } else {
+        res.innerHTML = "<strong>AI is an advanced pattern matcher:</strong> It structures code by mapping your prompt specifications to learned software patterns!";
+      }
+    }
+
+    // Slide 11 Prompt Quality Check with Emboldened Items
+    function testDraftPrompt() {
+      const text = document.getElementById('draftPromptArea').value.trim();
+      const fb = document.getElementById('promptQualityFeedback');
+      fb.classList.remove('hidden');
+
+      const lower = text.toLowerCase();
+      const hasPersona = lower.includes('act as') || lower.includes('developer') || lower.includes('expert') || lower.includes('role');
+      const hasTech = lower.includes('html') || lower.includes('css') || lower.includes('js') || lower.includes('javascript') || lower.includes('python');
+      const hasRules = lower.includes('include') || lower.includes('theme') || lower.includes('button') || lower.includes('score') || lower.includes('layout');
+
+      playCorrectSound();
+      
+      fb.innerHTML = `
+        <div class="font-extrabold text-brand-purple mb-1">🔍 Identified Prompt Ingredients:</div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 my-2 text-xs">
+          <div class="p-2 rounded-lg ${hasPersona ? 'bg-green-100 border border-green-400 text-green-900' : 'bg-gray-100 text-gray-600'}">
+            <strong>• Persona / Role:</strong> ${hasPersona ? '<b>DETECTED</b>' : '<b>MISSING</b>'}
+          </div>
+          <div class="p-2 rounded-lg ${hasTech ? 'bg-green-100 border border-green-400 text-green-900' : 'bg-gray-100 text-gray-600'}">
+            <strong>• Tech Stack:</strong> ${hasTech ? '<b>DETECTED</b>' : '<b>MISSING</b>'}
+          </div>
+          <div class="p-2 rounded-lg ${hasRules ? 'bg-green-100 border border-green-400 text-green-900' : 'bg-gray-100 text-gray-600'}">
+            <strong>• Features / Rules:</strong> ${hasRules ? '<b>DETECTED</b>' : '<b>MISSING</b>'}
+          </div>
+        </div>
+        <p class="text-brand-greyDark font-medium mt-1">
+          <strong>Prompt Review:</strong> Your prompt contains <b>${text.length} characters</b>. Make sure to specify <b>Role</b>, <b>Tech Stack</b>, and <b>Layout Constraints</b> for best results.
+        </p>
+      `;
+    }
+
+    // Slide 12 Quiz Functions
+    function toggleToolQuiz(btn, isCorrect) {
+      if (isCorrect) {
+        playCorrectSound();
+        btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+      } else {
+        playWrongSound();
+        btn.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+      }
+    }
+
+    function quizGameTool(isCorrect, btn) {
+      if (isCorrect) {
+        playCorrectSound();
+        btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
+        document.getElementById('victoryBanner').classList.remove('hidden');
+        confetti({ particleCount: 120, spread: 100, origin: { y: 0.6 } });
+      } else {
+        playWrongSound();
+        btn.classList.add('bg-red-100', 'border-red-400', 'text-red-700');
+      }
+    }
+
+    function triggerFinishCelebration() {
+      playTone(523.25, 'triangle', 0.15);
+      setTimeout(() => playTone(659.25, 'triangle', 0.15), 150);
+      setTimeout(() => playTone(783.99, 'triangle', 0.15), 300);
+      setTimeout(() => playTone(1046.50, 'triangle', 0.4), 450);
+
+      const victory = document.getElementById('victoryBanner');
+      if (victory) victory.classList.remove('hidden');
+
+      confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+    }
+
+    // Initial Render
+    updateSlideDisplay();
+  </script>
+</body>
+</html>
